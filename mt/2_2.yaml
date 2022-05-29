@@ -1,0 +1,12 @@
+name: correct bracket sequence
+source code: "input: '('\r\nblank: ' '\r\nstart state: q0\r\ntable:\r\n  q0:\r\n    'x': R\r\n    '(': {R: qA}\r\n    '[': {R: qB}\r\n    '{': {R: qC}\r\n    [')', ']', '}']: {R: reject}\r\n  #состояния для каждого типа скобок -- ищем соответствующую закрывающую скобку\r\n  qA:\r\n    x: R\r\n    ')': {write: x, L: bracketToX}\r\n    '(': {R: qA}\r\n    '[': {R: qB}\r\n    '{': {R: qC}\r\n    [']', '}', ' ']: {L: reject}\r\n\r\n  qB:\r\n    x: R\r\n    ']': {write: x, L: bracketToX}\r\n    '(': {R: qA}\r\n    '[': {R: qB}\r\n    '{': {R: qC}\r\n    [')', '}', ' ']: {L: reject}\r\n\r\n  qC:\r\n    x: R\r\n    '}': {write: x, L: bracketToX}\r\n    '(': {R: qA}\r\n    '[': {R: qB}\r\n    '{': {R: qC}\r\n    [']', ')', ' ']: {L: reject}\r\n  #заменяем скобку на х и проверяем вложенные скобки\r\n  bracketToX:\r\n    x: L\r\n    ['(', '[', '{']: {write: x, R: findLeft}\r\n  findLeft:\r\n    [x, ')', ']', '}']: L\r\n    '(': {R: qA}\r\n    '[': {R: qB}\r\n    '{': {R: qC}\r\n    ' ': {R: findRight}\r\n\r\n  findRight:\r\n    x: R\r\n    '(': {R: qA}\r\n    '[': {R: qB}\r\n    '{': {R: qC}\r\n    ' ': {L: accept}\r\n    [')', ']', '}']: {L: reject}\r\n  reject:\r\n  accept:"
+positions:
+  q0: {x: 36.49, y: 67.7}
+  qA: {x: 438.6, y: 75.09}
+  qB: {x: 386.93, y: 417.86}
+  qC: {x: 39.21, y: 245.98}
+  bracketToX: {x: 550.37, y: 246.29}
+  findLeft: {x: 543.03, y: 381.03}
+  findRight: {x: 230.06, y: 146.54}
+  reject: {x: 174.65, y: 480}
+  accept: {x: 143.35, y: 37.63}
