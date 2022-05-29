@@ -1,0 +1,55 @@
+name: unary addition
+source code: |-
+  # unary addition
+  input: '1+11'
+  blank: ' '
+  start state: right
+  table:
+    right:
+      1: R
+      '+'  : {R: carry}
+    carry:
+      1: {write: '*', L: go}
+      '*': R
+      ' ': {L: last}
+    go:
+      [1, '*', '+']: L
+      ' ': {write: 1, R: right}
+    last:
+      ['*', '+']: {write: ' ', L}
+      1: L
+      ' ': {R: done}
+    done:
+positions:
+  right: {x: 230, y: 250}
+  carry: {x: 400, y: 250}
+  go: {x: 315.2, y: 361.66, fixed: false}
+  last: {x: 484.39, y: 361.86, fixed: false}
+  done: {x: 570, y: 250}
+editor contents: |-
+  # унарное сложение
+  input: '1+11'
+  blank: ' '
+  start state: right
+  table:
+  # ищем + и переходим ко второму слагаемому
+    right:
+      1: R
+      '+'  : {R: carry}
+  # меняем 1 на * во втором слагаемом и переходим к первому слагаемому
+  # если 1 не осталось, переходим к очистке ленты
+    carry:
+      1: {write: '*', L: go}
+      '*': R
+      ' ': {L: last}
+  # если во втором слагаемом произошла замена на *,
+  # добавляем 1 к первому слагаемому и снова переходим ко второму
+    go:
+      [1, '*', '+']: L
+      ' ': {write: 1, R: right}
+  # очищаем ленту от * и +
+    last:
+      ['*', '+']: {write: ' ', L}
+      1: L
+      ' ': {R: done}
+    done:
