@@ -1,4 +1,4 @@
-name: three equal lengthsmine
+name: L
 source code: |-
   # L = { 0ⁿ1ⁿ2ⁿ | n ≥ 0 }
   input: '00112'
