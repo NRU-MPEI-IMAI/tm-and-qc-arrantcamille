@@ -1,0 +1,96 @@
+name: unary multiplication
+source code: |
+  # унарное умножение
+  input: '11*'
+  blank: ' '
+
+  # идея
+  #   multiply(0, b) = 0
+  #   multiply(a, b) = b + multiply(a-1, b)   when a > 0
+  start state: eachA
+  table:
+    # для каждой 1 в а, добавляем копию b
+    eachA:
+      '1': {write: ' ', R: toB}  # шаг индукции:  a > 0.
+      '*': {R: skip}             # база индукции: a = 0.
+    toB:
+      '1': R
+      '*': {R: eachB} # начинаем копирование
+    nextA: # движемся к началу а
+      ' ': {write: '1', R: eachA}
+      ['1','*']: L
+
+    skip:
+      '1': R
+      ' ': {R: done}
+    done:
+
+    # копирование b
+    eachB:
+      ' ': {L: nextA}
+      '1': {write: ' ', R: sep}
+    sep:
+      ' ': {R: add}
+      '1': R
+    add:
+      ' ': {write: '1', L: sepL}
+      '1': R
+    sepL:
+      ' ': {L: nextB}
+      '1': L
+    nextB:
+      ' ': {write: '1', R: eachB}
+      '1': L
+positions:
+  eachA: {x: 400, y: 50}
+  toB: {x: 400, y: 150}
+  nextA: {x: 280, y: 90}
+  skip: {x: 520, y: 90}
+  done: {x: 520, y: 190}
+  eachB: {x: 400, y: 250}
+  sep: {x: 400, y: 350}
+  add: {x: 400, y: 450}
+  sepL: {x: 280, y: 350}
+  nextB: {x: 280, y: 250}
+editor contents: |
+  # унарное умножение
+  input: '11*'
+  blank: ' '
+
+  # идея
+  #   multiply(0, b) = 0
+  #   multiply(a, b) = b + multiply(a-1, b)   когда a > 0
+  start state: eachA
+  table:
+    # для каждой 1 в а, добавляем копию b
+    eachA:
+      '1': {write: ' ', R: toB}  # шаг индукции:  a > 0.
+      '*': {R: skip}             # база индукции: a = 0.
+    toB:
+      '1': R
+      '*': {R: eachB} # начинаем копирование
+    nextA: # движемся к началу а
+      ' ': {write: '1', R: eachA}
+      ['1','*']: L
+
+    skip:
+      '1': R
+      ' ': {R: done}
+    done:
+
+    # копирование b
+    eachB:
+      ' ': {L: nextA}
+      '1': {write: ' ', R: sep}
+    sep:
+      ' ': {R: add}
+      '1': R
+    add:
+      ' ': {write: '1', L: sepL}
+      '1': R
+    sepL:
+      ' ': {L: nextB}
+      '1': L
+    nextB:
+      ' ': {write: '1', R: eachB}
+      '1': L
